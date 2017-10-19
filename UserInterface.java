@@ -14,6 +14,10 @@ public class UserInterface extends JPanel implements MouseListener, MouseMotionL
         g.fillRect(x - 20, y-20, 40, 40);
         g.setColor(new Color(190, 80, 215));
         g.fillRect(10, 10, 20, 20);
+        g.drawString("Chess", x, y);
+        Image chessPieceImages;
+        chessPieceImages = new ImageIcon("ChessPieces.png").getImage();
+        g.drawImage(chessPieceImages, x, y, x + 64, y + 64, 0, 0, 64, 64, this);
     }
 
     public void mouseMoved(MouseEvent e){}
