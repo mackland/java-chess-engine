@@ -10,7 +10,11 @@ public class AlphaBetaChess{
         {" "," "," "," "," "," "," "," "},
         {"P","P","P","P","P","P","P","P"},
         {"R","K","B","Q","A","B","K","R"}};
-/*
+    
+    //keep track of king to avoid check/illegal move
+    static int kingPositionC; kingPositionL;
+
+    /*
     public static void main(String[] args){
         JFrame f = new JFrame("My Title Goes Here!");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -83,9 +87,37 @@ public class AlphaBetaChess{
     
     public static String possibleA(int i){
         String list = "";
-        
+        String oldPiece;
+        int row = i/8;
+        int col = i%8;
+        for(int j = 0; j < 9; j++){
+            if(j != 4) {
+                try{
+                    if(Character.isLowerCase(chessBoard[row - 1 + j/3][col - 1 + j%3].charAt(0)) || " ".equals(chessBoard[row-1+j/3][col-1+j%3])){
+                        oldPiece = chessBoard[row - 1 + j/3][col - 1 + j%3];
+                        chessBoard[row][col] = " ";
+                        chessBoard[row - 1 + j/3][col - 1 + j%3] = "A";
+                        int kingTemp = kingPosition;
+                        kingPositionC = i+(j/3)*8+j%3-9;
+                        if(kingSafe()){
+                            list = list + row + col + (row - 1 + j/3) + (col - 1 + j%3) + oldPiece;
+                        }
+                        chessBoard[row][col] = "A";
+                        chessBoard[row - 1 + j/3][col - 1 + j%3] = oldPiece;
+                        kingPositionC = kingTemp;
+                    }
+                } catch(Exception e) {
+
+                }
+            }
+        }
+        // need to add castling later!!
         return list;
     }
-
+    
+    //check if move makes king unsafe or not/in check
+    public static boolean kingSafe(){
+        return true;
+    }
 
 }
