@@ -2,10 +2,10 @@ public class AlphaBetaChess{
     static String chessBoard[][] = {
         {"r","k","b","q","a","b","k","r"},
         {"p","p","p","p","p","p","p","p"},
+        {"K"," "," "," "," "," "," "," "},
         {" "," "," "," "," "," "," "," "},
         {" "," "," "," "," "," "," "," "},
         {" "," "," "," "," "," "," "," "},
-        {"R"," "," "," "," "," "," "," "},
         {"P","P","P","P","P","P","P","P"},
         {"R","K","B","Q","A","B","K","R"}};
     
@@ -120,7 +120,40 @@ public class AlphaBetaChess{
     
     public static String possibleK(int i){
         String list = "";
-        
+        String oldPiece;
+
+        int row = i/8;
+        int col = i%8;
+        for(int j = -1; j <= 1; j+=2){
+            for(int k = -1; k <= 1; k +=2){
+                try{
+                    if(Character.isLowerCase(chessBoard[row + j][col + k*2].charAt(0)) || " ".equals(chessBoard[row + j][col + k*2])){
+                        oldPiece = chessBoard[row+j][col+2*k];
+                        chessBoard[row][col] = " ";
+                        chessBoard[row+j][col+2*k] = "K";
+                        if(kingSafe()){
+                            list = list + row + col + (row+j) + (col+2*k) + oldPiece;
+                        }
+                        chessBoard[row][col] = "K";
+                        chessBoard[row+j][col+2*k] = oldPiece;
+                    }
+                } catch (Exception e){}
+                try{
+                    if(Character.isLowerCase(chessBoard[row + 2*j][col + k].charAt(0)) || " ".equals(chessBoard[row + 2*j][col + k])){
+                        oldPiece = chessBoard[row+2*j][col+k];
+                        chessBoard[row][col] = " ";
+                        chessBoard[row+2*j][col+k] = "K";
+                        if(kingSafe()){
+                            list = list + row + col + (row+2*j) + (col+k) + oldPiece;
+                        }
+                        chessBoard[row][col] = "K";
+                        chessBoard[row+2*j][col+k] = oldPiece;
+                    }
+                } catch (Exception e){}
+ 
+
+            }
+        }  
         return list;
     }
     
