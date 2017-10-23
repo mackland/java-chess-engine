@@ -96,7 +96,7 @@ public class AlphaBetaChess{
                     chessBoard[row][col] = " ";
                     chessBoard[row + temp*j][col] = "R";
                     if(kingSafe()){
-                        list = list + row + col + row + (col + temp*j) + oldPiece;
+                        list = list + row + col + (row + temp*j) + col + oldPiece;
                     }
                     chessBoard[row][col] = "R";
                     chessBoard[row + temp*j][col] = oldPiece;
@@ -107,13 +107,13 @@ public class AlphaBetaChess{
                     chessBoard[row][col] = " ";
                     chessBoard[row + temp*j][col] = "R";
                     if(kingSafe()){
-                        list = list + row + col + row + (col + temp*j) + oldPiece;
+                        list = list + row + col + (row + temp*j) + col + oldPiece;
                     }
                     chessBoard[row][col] = "R";
                     chessBoard[row + temp*j][col] = oldPiece;
                 }
             } catch(Exception e) {}
- 
+            temp = 1; 
         }        
         return list;
     }
