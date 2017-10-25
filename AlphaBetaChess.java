@@ -3,16 +3,16 @@ public class AlphaBetaChess{
         {"r","k","b","q","a","b","k","r"},
         {"p","p","p","p","p","p","p","p"},
         {" "," "," "," "," "," "," "," "},
+        {" "," "," "," "," "," ","b"," "},
         {" "," "," "," "," "," "," "," "},
-        {" "," "," "," "," "," "," "," "},
-        {" "," "," "," "," "," "," "," "},
+        {" "," "," "," ","A"," "," "," "},
         {"P","P","P","P","P","P","P","P"},
         {"R","K","B","Q","A","B","K","R"}};
     
     //keep track of king to avoid check/illegal move
     static int kingPositionC;
     static int kingPositionL;
-
+    
     /*
     public static void main(String[] args){
         JFrame f = new JFrame("My Title Goes Here!");
@@ -268,9 +268,48 @@ public class AlphaBetaChess{
     
     //check if move makes king unsafe or not/in check
     public static boolean kingSafe(){
-        return true;
+        //bishop & queen (diagonal)
+        int temp = 1;
+        for(int i = -1; i <= 1; i+=2){
+            for(int j = -1; j <= 1; j+=2){
+                try{
+                    while(" ".equals(chessBoard[kingPositionC/8 + temp*i][kingPositionC + temp*j])){temp++;}
+                    if(("b".equals(chessBoard[kingPositionC/8 + temp*i][kingPositionC%8 + temp*j])) || ("q".equals(chessBoard[kingPositionC/8 + temp*i][kingPositionC%8+temp*j])) ){
+                    //danger
+                    return false;
+                    }
+                } catch(Exception e){}
+                temp = 1;
+            }
+        } 
+
+        //rook
+        for(int i = -1; i <= 1; i+=2){
+            try{
+                while(" ".equals(chessBoard[kingPositionC/8][kingPositionC%8 + temp*i])){
+                    temp++;
+                }
+                     if(("r".equals(chessBoard[kingPositionC/8][kingPositionC%8 + temp*i])) || 
+                        ("q".equals(chessBoard[kingPositionC/8][kingPositionC%8 + temp*i])) ){
+                            //danger
+                            return false;
+                       }
+            } catch(Exception e){}
+            temp = 1;
+             try{
+                while(" ".equals(chessBoard[kingPositionC/8 + temp*i][kingPositionC%8])){
+                    temp++;
+                }
+                     if(("r".equals(chessBoard[kingPositionC/8 + temp*i][kingPositionC%8])) || 
+                        ("q".equals(chessBoard[kingPositionC/8 + temp*i][kingPositionC%8])) ){
+                            //danger
+                            return false;
+                       }
+            } catch(Exception e){}
+            temp = 1;
     }
-    
+    return true;
+    } 
     public static void main(String[] args){
         System.out.println(possibleMoves());
     }
