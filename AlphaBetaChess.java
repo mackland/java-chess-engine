@@ -3,9 +3,9 @@ public class AlphaBetaChess{
         {"r","k","b","q","a","b","k","r"},
         {"p","p","p","p","p","p","p","p"},
         {" "," "," "," "," "," "," "," "},
-        {" "," "," "," "," "," ","b"," "},
         {" "," "," "," "," "," "," "," "},
-        {" "," "," "," ","A"," "," "," "},
+        {" "," "," "," "," "," "," "," "},
+        {" "," "," "," "," "," "," "," "},
         {"P","P","P","P","P","P","P","P"},
         {"R","K","B","Q","A","B","K","R"}};
     
@@ -46,7 +46,7 @@ public class AlphaBetaChess{
                     list += possibleQ(i);
                     break;
                 case "A":
-                    //list += possibleA(i);
+                    list += possibleA(i);
                     break;
             }
         }    
@@ -311,6 +311,9 @@ public class AlphaBetaChess{
     return true;
     } 
     public static void main(String[] args){
+        while(!"A".equals(chessBoard[kingPositionC/8][kingPositionC%8])) {kingPositionC++;}
+        while(!"a".equals(chessBoard[kingPositionL/8][kingPositionL%8])) {kingPositionL++;}
+        
         System.out.println(possibleMoves());
     }
 }
