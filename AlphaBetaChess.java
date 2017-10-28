@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class AlphaBetaChess{
     static String chessBoard[][] = {
         {"r","k","b","q","a","b","k","r"},
@@ -25,6 +27,55 @@ public class AlphaBetaChess{
 */    
     //format of return will be: x1,y1,x2,y2,captured piece
     //e.g. 6,7,5,7," "
+    public static void makeMove(String move){
+        //check for  pawn promotion
+        if(move.charAt(move.length() - 1) != 'P'){
+            //x1,y1,x2,y2,captured piece
+            int oldRow = Character.getNumericValue(move.charAt(0));
+            int oldCol = Character.getNumericValue(move.charAt(1));
+            int newRow = Character.getNumericValue(move.charAt(2));
+            int newCol = Character.getNumericValue(move.charAt(3));
+
+            chessBoard[newRow][newCol] = chessBoard[oldRow][oldCol];
+            chessBoard[oldRow][oldCol] = " ";
+        } else {
+            //if pawn promotion
+            //move format: col1, col2, captured-piece, new-piece, P
+            int oldCol = Character.getNumericValue(move.charAt(0));
+            int newCol = Character.getNumericValue(move.charAt(1));
+            String newPiece = String.valueOf(move.charAt(3));
+
+            chessBoard[1][oldCol] = " ";
+            chessBoard[0][newCol] = newPiece;
+        }
+    }
+    
+    public static void undoMove(String move){
+         //check for  pawn promotion
+        if(move.charAt(move.length() - 1) != 'P'){
+            //x1,y1,x2,y2,captured piece
+            int oldRow = Character.getNumericValue(move.charAt(0));
+            int oldCol = Character.getNumericValue(move.charAt(1));
+            int newRow = Character.getNumericValue(move.charAt(2));
+            int newCol = Character.getNumericValue(move.charAt(3));
+            String oldPiece = String.valueOf(move.charAt(4));
+            
+            chessBoard[oldRow][oldCol] = chessBoard[newRow][newCol];
+            chessBoard[newRow][newCol] = oldPiece;
+        } else {
+            //if pawn promotion
+            //move format: col1, col2, captured-piece, new-piece, P
+            int oldCol = Character.getNumericValue(move.charAt(0));
+            int newCol = Character.getNumericValue(move.charAt(1));
+            String newPiece = String.valueOf(move.charAt(3));
+            String capturedPiece = String.valueOf(move.charAt(2));
+
+            chessBoard[1][oldCol] = "P";
+            chessBoard[0][newCol] = capturedPiece;
+        }
+    
+    }
+    
     public static String possibleMoves(){
         String list = "";
 
@@ -460,7 +511,15 @@ public class AlphaBetaChess{
     public static void main(String[] args){
         while(!"A".equals(chessBoard[kingPositionC/8][kingPositionC%8])) {kingPositionC++;}
         while(!"a".equals(chessBoard[kingPositionL/8][kingPositionL%8])) {kingPositionL++;}
-        
+        makeMove("6050 ");
+        makeMove("7657 ");
+        for(int i = 0; i < chessBoard.length; i++){
+            System.out.println(Arrays.toString(chessBoard[i]));
+        }
         System.out.println(possibleMoves());
+        undoMove("7657 ");
+        for(int i = 0; i < chessBoard.length; i++){
+            System.out.println(Arrays.toString(chessBoard[i]));
+        }
     }
 }
