@@ -1,13 +1,13 @@
 public class AlphaBetaChess{
     static String chessBoard[][] = {
-        {"r","k","b","q"," ","b","k","r"},
+        {"r","k","b","q","a","b","k","r"},
         {"p","p","p","p","p","p","p","p"},
         {" "," "," "," "," "," "," "," "},
-        {" "," "," "," "," "," ","q"," "},
         {" "," "," "," "," "," "," "," "},
-        {" "," "," "," ","A"," ","a"," "},
+        {" "," "," "," "," "," "," "," "},
+        {" "," "," "," "," "," "," "," "},
         {"P","P","P","P","P","P","P","P"},
-        {"R","K","B","Q"," ","B","K","R"}};
+        {"R","K","B","Q","A","B","K","R"}};
     
     //keep track of king to avoid check/illegal move
     static int kingPositionC;
@@ -55,7 +55,55 @@ public class AlphaBetaChess{
 
     public static String possibleP(int i){
         String list = "";
+        String oldPiece;
+        int row = i/8;
+        int col = i%8;
+
+        for(int j = -1; j <= 1; j+=2){
+            // look for possible captures (diagonal)
+            try{
+                if(Character.isLowerCase(chessBoard[row - 1][col + j].charAt(0)) &&
+                        i>=16){
+                    oldPiece = chessBoard[row - 1][col + j];
+                    chessBoard[row][col] = " ";
+                    chessBoard[row][col] = "P";
+                    if(kingSafe()){
+                        list = list + row + col + (row - 1) + (col + j) + oldPiece;
+                    }
+                    chessBoard[row][col] = "P";
+                    chessBoard[row - 1][col + j] = oldPiece;
+                }
+            } catch(Exception e){}
+             try{ //promotion & capture
+                if(Character.isLowerCase(chessBoard[row - 1][col + j].charAt(0)) &&
+                        i < 16){
+                    String[] promotionPiece = {"Q", "R", "B", "K"};
+                    
+                    for(int k = 0; k < promotionPiece.length; k++){
+                        oldPiece = chessBoard[row-1][col+j];
+                        chessBoard[row][col] = " ";
+                        chessBoard[row - 1][col + j] = promotionPiece[k];
+                        if (kingSafe()){
+                            // column1, column2, captured-piece, new-piece, P
+                            list = list + col + (col + j) + oldPiece + promotionPiece[k] + "P";
+                        }
+                        chessBoard[row][col] = "P";
+                        chessBoard[row-1][col+j] = oldPiece;
+                    }
+
+                    oldPiece = chessBoard[row - 1][col + j];
+                    chessBoard[row][col] = " ";
+                    chessBoard[row][col] = "P";
+                    if(kingSafe()){
+                        list = list + row + col + (row - 1) + (col + j) + oldPiece;
+                    }
+                    chessBoard[row][col] = "P";
+                    chessBoard[row - 1][col + j] = oldPiece;
+                }
+            } catch(Exception e){}
         
+        }
+
         return list;
     }
     
