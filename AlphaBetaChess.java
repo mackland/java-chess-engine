@@ -1,13 +1,13 @@
 public class AlphaBetaChess{
     static String chessBoard[][] = {
-        {"r","k","b","q","a","b","k","r"},
+        {"r","k","b","q"," ","b","k","r"},
         {"p","p","p","p","p","p","p","p"},
         {" "," "," "," "," "," "," "," "},
+        {" "," "," "," "," "," ","q"," "},
         {" "," "," "," "," "," "," "," "},
-        {" "," "," "," "," "," "," "," "},
-        {" "," "," "," "," "," "," "," "},
+        {" "," "," "," ","A"," ","a"," "},
         {"P","P","P","P","P","P","P","P"},
-        {"R","K","B","Q","A","B","K","R"}};
+        {"R","K","B","Q"," ","B","K","R"}};
     
     //keep track of king to avoid check/illegal move
     static int kingPositionC;
@@ -310,8 +310,8 @@ public class AlphaBetaChess{
     }
 
     //knight
-    for(int i = -1; i <= 1; i++){
-        for(int j = 0; j <= 1; j++){
+    for(int i = -1; i <= 1; i+=2){
+        for(int j = 0; j <= 1; j+=2){
             try{
                 if("k".equals(chessBoard[kingPositionC/8 + i][kingPositionC%8+j*2])){
                     return false;
@@ -325,7 +325,36 @@ public class AlphaBetaChess{
 
         }
     }
-    if(kingPositionC)
+
+    //pawn
+    if(kingPositionC >= 16){
+        try{
+            if("p".equals(chessBoard[kingPositionC/8 - 1][kingPositionC%8 - 1])){
+                return false;
+            }
+        } catch(Exception e){}
+        try{
+            if("p".equals(chessBoard[kingPositionC/8 - 1][kingPositionC%8 + 1])){
+                return false;
+            }
+        } catch(Exception e){}
+    }
+    
+    //king
+    for(int i = -1; i <= 1; i++){
+        for(int j = 0; j <= 1; j++){
+            if(i != 0 || j != 0){
+                try{
+                    if("a".equals(chessBoard[kingPositionC/8 + i][kingPositionC%8 + j])){
+                        return false;
+                    }
+                } catch(Exception e) {}
+            }
+        }
+    }
+
+
+    //if no danger or flags
     return true;
     } 
     public static void main(String[] args){
