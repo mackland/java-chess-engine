@@ -308,6 +308,24 @@ public class AlphaBetaChess{
             } catch(Exception e){}
             temp = 1;
     }
+
+    //knight
+    for(int i = -1; i <= 1; i++){
+        for(int j = 0; j <= 1; j++){
+            try{
+                if("k".equals(chessBoard[kingPositionC/8 + i][kingPositionC%8+j*2])){
+                    return false;
+                }
+            } catch(Exception e) {}
+            try{
+                if("k".equals(chessBoard[kingPositionC/8 + 2*i][kingPositionC%8+j])){
+                    return false;
+                }
+            } catch(Exception e) {}
+
+        }
+    }
+    if(kingPositionC)
     return true;
     } 
     public static void main(String[] args){
